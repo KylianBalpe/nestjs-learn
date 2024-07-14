@@ -1,4 +1,5 @@
 import { Controller, Get, HttpCode, Query } from '@nestjs/common';
+import { UserService } from '@/user/user.service';
 
 type HelloResponse = {
   status: string;
@@ -8,6 +9,8 @@ type HelloResponse = {
 
 @Controller('/v1')
 export class UserController {
+  constructor(private service: UserService) {}
+
   @Get('/users')
   @HttpCode(200)
   getUsers(): Record<string, string | number> {
@@ -20,14 +23,7 @@ export class UserController {
 
   @Get('/hello')
   @HttpCode(200)
-  async getHello(
-    @Query('firstName') firstName?: string,
-    @Query('lastName') lastName?: string,
-  ): Promise<HelloResponse> {
-    return {
-      status: 'OK',
-      code: 200,
-      message: `Hello ${firstName} ${lastName}`,
-    };
+  async getHello(@Query('name') name: string): Promise<string> {
+    return this.service.sayHello(name);
   }
 }

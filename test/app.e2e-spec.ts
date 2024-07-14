@@ -25,9 +25,8 @@ describe('AppController (e2e)', () => {
   it('should say hello', async () => {
     const result = await request(app.getHttpServer())
       .get('/v1/hello')
-      .query({ firstName: 'Iqbal', lastName: 'Pamula' });
+      .query({ name: 'Iqbal Pamula' });
 
-    expect(result.status).toBe(200);
-    expect(result.body.message).toBe('Hello Iqbal Pamula');
+    expect(result.text).toBe('Hello Iqbal Pamula');
   });
 });
