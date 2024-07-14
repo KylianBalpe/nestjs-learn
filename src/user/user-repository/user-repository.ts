@@ -5,7 +5,7 @@ import { User } from '@prisma/client';
 @Injectable()
 export class UserRepository {
   constructor(private prismaService: PrismaService) {
-    console.info('UserRepository instantiated');
+    console.info('UserRepository initialized');
   }
 
   async save(firstName: string, lastName: string): Promise<User> {
