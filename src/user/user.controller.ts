@@ -1,6 +1,8 @@
 import { Controller, Get, HttpCode, Query } from '@nestjs/common';
 
 type HelloResponse = {
+  status: string;
+  code: number;
   message: string;
 };
 
@@ -23,6 +25,8 @@ export class UserController {
     @Query('lastName') lastName?: string,
   ): Promise<HelloResponse> {
     return {
+      status: 'OK',
+      code: 200,
       message: `Hello ${firstName} ${lastName}`,
     };
   }
