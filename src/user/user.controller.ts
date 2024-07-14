@@ -1,22 +1,16 @@
-import { Controller, Get, HttpCode, Query } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
 import { UserService } from '@/user/user.service';
-
-type HelloResponse = {
-  status: string;
-  code: number;
-  message: string;
-};
 
 @Controller('/v1')
 export class UserController {
   constructor(private service: UserService) {}
 
   @Get('/users')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   getUsers(): Record<string, string | number> {
     return {
       status: 'OK',
-      code: 200,
+      code: HttpStatus.OK,
       message: 'Get all users',
     };
   }
