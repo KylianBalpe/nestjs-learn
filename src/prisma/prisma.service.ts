@@ -5,6 +5,6 @@ import { PrismaClient } from '@prisma/client';
 export class PrismaService extends PrismaClient {
   constructor() {
     super();
-    console.info('PrismaService initialized');
+    console.info('Create Prisma Service');
   }
 }
