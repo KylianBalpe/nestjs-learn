@@ -21,7 +21,7 @@ export class UserController {
   }
 
   @Get('/hello')
-  @HttpCode(200)
+  @HttpCode(HttpStatus.OK)
   async getHello(@Query('name') name: string): Promise<string> {
     return this.service.sayHello(name);
   }

@@ -8,6 +8,8 @@ import { UserRepository } from '@/user/user-repository/user-repository';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { UserModule } from '@/user/user.module';
+import { ValidationService } from './validation/validation.service';
+import { ValidationModule } from './validation/validation.module';
 
 @Module({
   imports: [
@@ -21,8 +23,9 @@ import { UserModule } from '@/user/user.module';
       isGlobal: true,
     }),
     PrismaModule,
+    ValidationModule.forRoot(true),
   ],
   controllers: [AppController],
-  providers: [AppService, PrismaService, UserRepository],
+  providers: [AppService, PrismaService, UserRepository, ValidationService],
 })
 export class AppModule {}
