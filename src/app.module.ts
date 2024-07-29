@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -8,8 +13,9 @@ import { UserRepository } from '@/user/user-repository/user-repository';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { UserModule } from '@/user/user.module';
-import { ValidationService } from './validation/validation.service';
-import { ValidationModule } from './validation/validation.module';
+import { ValidationService } from '@/validation/validation.service';
+import { ValidationModule } from '@/validation/validation.module';
+import { LogMiddleware } from '@/log/log.middleware';
 
 @Module({
   imports: [
@@ -28,4 +34,11 @@ import { ValidationModule } from './validation/validation.module';
   controllers: [AppController],
   providers: [AppService, PrismaService, UserRepository, ValidationService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LogMiddleware).forRoutes({
+      path: '/v1/*',
+      method: RequestMethod.ALL,
+    });
+  }
+}
