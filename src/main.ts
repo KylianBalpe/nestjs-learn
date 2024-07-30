@@ -10,6 +10,8 @@ async function bootstrap() {
   app.useLogger(logger);
   // app.useGlobalFilters(new ValidationFilter());
 
+  app.enableShutdownHooks();
+
   const configService = app.get(ConfigService);
   const PORT = configService.get('PORT') || 9000;
   await app.listen(PORT);
