@@ -6,7 +6,7 @@ export class AuthMiddleware implements NestMiddleware {
   constructor(private prismaService: PrismaService) {}
 
   async use(req: any, res: any, next: () => void) {
-    const userId = Number(req.headers['x-user-id']);
+    const userId = parseInt(req.headers['x-user-id']);
     if (!userId) {
       throw new HttpException('Unauthorized', 401);
     }
@@ -21,7 +21,7 @@ export class AuthMiddleware implements NestMiddleware {
       req.user = user;
       next();
     } else {
-      throw new HttpException('Unauthorized', 401);
+      throw new HttpException('User not found', 404);
     }
   }
 }

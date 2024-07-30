@@ -33,8 +33,15 @@ export class UserController {
     private userRepository: UserRepository,
   ) {}
 
-  @UseFilters(ValidationFilter)
+  @Get('/current')
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Hello ${user.firstName} ${user.lastName}`,
+    };
+  }
+
   @UsePipes(new ValidationPipe(loginUserRequestValidation))
+  @UseFilters(ValidationFilter)
   @Post('/login')
   @Header('Content-Type', 'application/json')
   @UseInterceptors(TimeInterceptor)
@@ -60,7 +67,7 @@ export class UserController {
   }
 
   @Get('/hello')
-  // @UseFilters(ValidationFilter)
+  @UseFilters(ValidationFilter)
   @HttpCode(HttpStatus.OK)
   async getHello(@Query('name') name: string): Promise<string> {
     return this.service.sayHello(name);
@@ -94,12 +101,5 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   getById(@Param('id', ParseIntPipe) id: number): string {
     return `GET ${id}`;
-  }
-
-  @Get('/current')
-  current(@Auth() user: User): Record<string, any> {
-    return {
-      data: `Hello ${user.firstName} ${user.lastName}`,
-    };
   }
 }
