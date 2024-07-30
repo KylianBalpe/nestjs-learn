@@ -24,8 +24,9 @@ import {
 } from '@/model/login-model';
 import { ValidationPipe } from '@/validation/validation.pipe';
 import { TimeInterceptor } from '@/time/time.interceptor';
+import { Auth } from '@/auth/auth.decorator';
 
-@Controller('/v1')
+@Controller('/v1/user')
 export class UserController {
   constructor(
     private service: UserService,
@@ -93,5 +94,12 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   getById(@Param('id', ParseIntPipe) id: number): string {
     return `GET ${id}`;
+  }
+
+  @Get('/current')
+  current(@Auth() user: User): Record<string, any> {
+    return {
+      data: `Hello ${user.firstName} ${user.lastName}`,
+    };
   }
 }

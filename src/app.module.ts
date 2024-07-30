@@ -16,6 +16,7 @@ import { UserModule } from '@/user/user.module';
 import { ValidationService } from '@/validation/validation.service';
 import { ValidationModule } from '@/validation/validation.module';
 import { LogMiddleware } from '@/log/log.middleware';
+import { AuthMiddleware } from '@/auth/auth.middleware';
 
 @Module({
   imports: [
@@ -39,6 +40,10 @@ export class AppModule implements NestModule {
     consumer.apply(LogMiddleware).forRoutes({
       path: '/v1/*',
       method: RequestMethod.ALL,
+    });
+    consumer.apply(AuthMiddleware).forRoutes({
+      path: '/v1/user/current',
+      method: RequestMethod.GET,
     });
   }
 }
