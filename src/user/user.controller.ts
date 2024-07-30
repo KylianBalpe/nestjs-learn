@@ -1,4 +1,11 @@
-import { Controller, Get, HttpCode, HttpStatus, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Query,
+} from '@nestjs/common';
 import { UserService } from '@/user/user.service';
 import { UserRepository } from '@/user/user-repository/user-repository';
 import { User } from '@prisma/client';
@@ -21,6 +28,7 @@ export class UserController {
   }
 
   @Get('/hello')
+  // @UseFilters(ValidationFilter)
   @HttpCode(HttpStatus.OK)
   async getHello(@Query('name') name: string): Promise<string> {
     return this.service.sayHello(name);
@@ -30,8 +38,17 @@ export class UserController {
   @HttpCode(HttpStatus.CREATED)
   async create(
     @Query('firstName') firstName: string,
-    @Query('lastName') lastName: string,
+    @Query('lastName') lastName?: string,
   ): Promise<Record<string, string | number | User>> {
+    if (!firstName) {
+      throw new HttpException(
+        {
+          code: 400,
+          errors: "First name can't be empty",
+        },
+        400,
+      );
+    }
     const data = await this.userRepository.save(firstName, lastName);
 
     return {
