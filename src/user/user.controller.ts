@@ -11,7 +11,6 @@ import {
   Post,
   Query,
   UseFilters,
-  UseGuards,
   UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
@@ -26,10 +25,8 @@ import {
 import { ValidationPipe } from '@/validation/validation.pipe';
 import { TimeInterceptor } from '@/time/time.interceptor';
 import { Auth } from '@/auth/auth.decorator';
-import { RoleGuard } from '@/role/role.guard';
 import { Roles } from '@/role/role.decorator';
 
-@UseGuards(RoleGuard)
 @Controller('/v1/user')
 export class UserController {
   constructor(
